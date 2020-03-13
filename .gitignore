@@ -1,0 +1,9 @@
+# 依赖文件夹
+/node_modules
+
+# tsc 编译文件
+/tsc
+
+# webpack 编译文件
+/dist
+
