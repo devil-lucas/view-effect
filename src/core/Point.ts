@@ -5,9 +5,9 @@ class Point {
 
   private _y: number = 0;
 
-  target: Window;
+  target: Window | HTMLElement;
 
-  constructor(target: Window) {
+  constructor(target: Window | HTMLElement) {
     this.target = target;
   }
 
