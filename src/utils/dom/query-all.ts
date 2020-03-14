@@ -1,5 +1,5 @@
 interface queryAllFunctionParam {
-  element?: Element;
+  element?: Element | Document;
   selector: string;
 }
 type queryAllFunction = (option: queryAllFunctionParam) => Element | NodeListOf<Element>;

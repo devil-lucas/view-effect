@@ -25,7 +25,7 @@ class MouseParallax {
   }
 
   private findVisionEle(): Element | NodeListOf<Element> {
-    return queryAll(`[${this._identify}]`);
+    return queryAll({ element: this.element, selector: `[${this._identify}]` });
   }
 
   animate() {
