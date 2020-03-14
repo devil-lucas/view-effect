@@ -1,12 +1,13 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { resolve } = require('path');
+const { name } = require('../package.json');
 
 module.exports = {
-  entry: path.resolve(__dirname, './src/index.ts'),
+  mode: 'production',
+  entry: resolve(__dirname, '../src/index.ts'),
   output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: 'index.js',
-    library: 'Vision',
+    path: resolve(__dirname, '../dist'),
+    filename: `${name}.js`,
+    library: name,
     libraryTarget: 'umd',
   },
   resolve: {
@@ -29,14 +30,5 @@ module.exports = {
         loader: 'ts-loader',
       },
     ],
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './example/index.html'),
-    }),
-  ],
-  devServer: {
-    port: 9001,
-    open: true,
   },
 };
