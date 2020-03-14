@@ -1,8 +1,8 @@
 {
-  "name": "view-vision",
+  "name": "view-effect",
   "version": "0.0.1",
-  "description": "vision effect for web.",
-  "main": "dist/view-vision.js",
+  "description": "view effect for web.",
+  "main": "dist/view-effect.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {
     "dev": "webpack-dev-server --config build/webpack.dev.config.js",
@@ -11,17 +11,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cryi1116/view-vision.git"
+    "url": "git+https://github.com/cryi1116/view-effect.git"
   },
   "keywords": [
-    "vision"
+    "effect"
   ],
   "author": "cryi1116",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cryi1116/view-vision/issues"
+    "url": "https://github.com/cryi1116/view-effect/issues"
   },
-  "homepage": "https://github.com/cryi1116/view-vision#readme",
+  "homepage": "https://github.com/cryi1116/view-effect#readme",
   "devDependencies": {
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7",

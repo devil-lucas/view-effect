@@ -1,6 +1,3 @@
-import Point from './core/Point';
+import MouseParallax from './module/MouseParallax';
 
-const p: Point = new Point(window);
-p.listen();
-
-export default Point;
+export default MouseParallax;
