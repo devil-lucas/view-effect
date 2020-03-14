@@ -1,5 +1,14 @@
-type selector = (selector: string) => Element | NodeListOf<Element>;
+interface queryAllFunctionParam {
+  element?: Element;
+  selector: string;
+}
+type queryAllFunction = (option: queryAllFunctionParam) => Element | NodeListOf<Element>;
 
-const queryAll:selector = (selector: string) => document.querySelectorAll(selector);
+const queryAll: queryAllFunction = (option: queryAllFunctionParam) => {
+  if (option.element) {
+    return option.element.querySelectorAll(option.selector);
+  }
+  return document.querySelectorAll(option.selector);
+};
 
 export default queryAll;
