@@ -1,10 +1,10 @@
-interface queryAllFunctionParam {
-  element?: Element | Document;
+interface DomQueryAllFunctionParam {
+  element?: HTMLElement | Document;
   selector: string;
 }
-type queryAllFunction = (option: queryAllFunctionParam) => Element | NodeListOf<Element>;
+type DomQueryAllFunction = (option: DomQueryAllFunctionParam) => NodeListOf<HTMLElement>;
 
-const queryAll: queryAllFunction = (option: queryAllFunctionParam) => {
+const queryAll: DomQueryAllFunction = (option: DomQueryAllFunctionParam) => {
   if (option.element) {
     return option.element.querySelectorAll(option.selector);
   }

@@ -1,5 +1,6 @@
-type event = (target: Window | HTMLElement, eventType: string, cb: Function) => void;
-const off: event = (function (): event {
+type DomEventOff = (target: Window | HTMLElement, eventType: string, cb: Function) => void;
+
+const off: DomEventOff = (function (): DomEventOff {
   return function (
     target: Window | HTMLElement, eventType: string, cb: EventHandlerNonNull,
   ) {

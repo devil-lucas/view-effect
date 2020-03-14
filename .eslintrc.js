@@ -34,5 +34,7 @@ module.exports = {
     'linebreak-style': [0, 'error', 'windows'],
     'no-underscore-dangle': [0, 'error'],
     'func-names': [0, 'error'],
+    'no-plusplus': [0, 'error'],
+    'no-param-reassign': [0, 'error'],
   }
 };
