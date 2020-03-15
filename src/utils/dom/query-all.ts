@@ -4,7 +4,7 @@ interface DomQueryAllFunctionParam {
 }
 type DomQueryAllFunction = (option: DomQueryAllFunctionParam) => NodeListOf<HTMLElement>;
 
-const queryAll: DomQueryAllFunction = (option: DomQueryAllFunctionParam) => {
+const queryAll: DomQueryAllFunction = function (option: DomQueryAllFunctionParam) {
   if (option.element) {
     return option.element.querySelectorAll(option.selector);
   }

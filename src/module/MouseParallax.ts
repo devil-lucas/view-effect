@@ -1,6 +1,7 @@
 import Point from '../base/Point';
 import query from '../utils/dom/query';
 import queryAll from '../utils/dom/query-all';
+import lerp from '../utils/lerp';
 
 interface EffectMouseParallaxOption {
   selector?: string;
@@ -41,12 +42,18 @@ class MouseParallax {
 
   private _effectEleMetaInfo: EffectEleMetaInfo[] = [];
 
+  private loop: (time: number) => void = null;
+
+  private _animationHandlerNumber: number = null;
+
   constructor(option: EffectMouseParallaxOption) {
     this._point = Point.getInstance();
     this.selector = option.selector;
     this.element = option.selector ? query({ selector: this.selector }) : document;
     this.effectEle = this._findEffectEle();
     this._generateEffectEleMetaInfo();
+
+    this.loop = this._loop.bind(this);
   }
 
   private _findEffectEle(): NodeListOf<HTMLElement> {
@@ -70,27 +77,10 @@ class MouseParallax {
         width: this.effectEle[i].offsetWidth,
       });
     }
-
-    // this.effectEle.forEach((ele) => {
-    //   const rate: number = this._calcRate(ele.getAttribute(this._default.identify));
-    //   this._effectEleMetaInfo.push({
-    //     ele,
-    //     rate,
-    //     targetX: 0,
-    //     targetY: 0,
-    //     prevX: 0,
-    //     prevY: 0,
-    //     x: 0,
-    //     y: 0,
-    //     top: ele.offsetTop,
-    //     left: ele.offsetLeft,
-    //     width: ele.offsetWidth,
-    //   });
-    // });
   }
 
   private _calcRate(rate: string): number {
-    let r: number = parseInt(rate, 10);
+    let r: number = parseFloat(rate);
     r = r || this._default.rate;
     if (r > 1 || r < 0) {
       r = this._default.rate;
@@ -98,35 +88,39 @@ class MouseParallax {
     return r;
   }
 
-  private _calcEffectElePosition() {
-    this._effectEleMetaInfo.forEach((eleMetaInfo) => {
-      eleMetaInfo.targetX = (
-        eleMetaInfo.width / 2 - (this._point.x - eleMetaInfo.left)
-      ) * eleMetaInfo.rate * 0.2;
-      eleMetaInfo.targetY = (
-        eleMetaInfo.width / 2 - (this._point.y - eleMetaInfo.top)
-      ) * eleMetaInfo.rate * 0.2;
-      eleMetaInfo.x += (eleMetaInfo.targetX - eleMetaInfo.x) * 0.02;
-      eleMetaInfo.y += (eleMetaInfo.targetY - eleMetaInfo.y) * 0.02;
-      if (Math.abs(eleMetaInfo.x) < 0.001) eleMetaInfo.x = 0;
-      if (Math.abs(eleMetaInfo.y) < 0.001) eleMetaInfo.y = 0;
-      if (eleMetaInfo.prevX !== eleMetaInfo.x && eleMetaInfo.prevY !== eleMetaInfo.y) {
-        eleMetaInfo.ele.style.position = 'relative';
-        eleMetaInfo.ele.style.transform = `translate3d(${eleMetaInfo.x}px, ${eleMetaInfo.y}px, 0px)`;
+  private _calcEffectEleTransform() {
+    this._effectEleMetaInfo.forEach((metaInfo) => {
+      metaInfo.targetX = (
+        metaInfo.width / 2 - (this._point.x - metaInfo.left)
+      ) * metaInfo.rate * 0.2;
+      metaInfo.targetY = (
+        metaInfo.width / 2 - (this._point.y - metaInfo.top)
+      ) * metaInfo.rate * 0.2;
+      metaInfo.x += lerp(metaInfo.targetX, metaInfo.x);
+      metaInfo.y += lerp(metaInfo.targetY, metaInfo.y);
+      if (Math.abs(metaInfo.x) < 0.001) metaInfo.x = 0;
+      if (Math.abs(metaInfo.y) < 0.001) metaInfo.y = 0;
+      if (metaInfo.prevX !== metaInfo.x && metaInfo.prevY !== metaInfo.y) {
+        metaInfo.ele.style.transform = `translate3d(${metaInfo.x}px, ${metaInfo.y}px, 0px)`;
       }
-      eleMetaInfo.prevX = eleMetaInfo.x;
-      eleMetaInfo.prevY = eleMetaInfo.y;
+      metaInfo.prevX = metaInfo.x;
+      metaInfo.prevY = metaInfo.y;
     });
   }
 
+  private _loop() {
+    this._calcEffectEleTransform();
+    this._animationHandlerNumber = requestAnimationFrame(this.loop);
+  }
+
   animate() {
-    // this._point.listen();
-    this._calcEffectElePosition();
-    requestAnimationFrame(this.animate.bind(this));
+    this._point.listen();
+    this._loop();
   }
 
   destroy() {
     this._point.destroy();
+    cancelAnimationFrame(this._animationHandlerNumber);
   }
 }
 

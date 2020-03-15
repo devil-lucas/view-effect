@@ -5,20 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 </head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  #test {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+  #e1 {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  #e1::before {
+    content: '';
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 120%;
+    height: 120%;
+    background-image: url('/example/assets/image/test.jpg');
+  }
+</style>
 <body>
 
-  <div data-effect>222</div>
   <div id="test">
-    <div data-effect="1">111</div>
-    <div data-effect>333</div>
-    <div>444</div>
-    <span>22</span>
+    <div id="e1" data-effect="0.8"></div>
   </div>
 
   <script>
     window.onload = function () {
       var e = new effect({ selector: '#test' });
       e.animate();
+      // setTimeout(function () {
+      //   e.destroy();
+      // }, 10000);
     }
   </script>
 </body>

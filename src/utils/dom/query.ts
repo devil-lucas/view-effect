@@ -4,7 +4,7 @@ interface DomQueryFunctionParam {
 }
 type DomQueryFunction = (option: DomQueryFunctionParam) => HTMLElement;
 
-const query: DomQueryFunction = (option: DomQueryFunctionParam) => {
+const query: DomQueryFunction = function (option: DomQueryFunctionParam) {
   if (option.element) {
     return option.element.querySelector(option.selector);
   }
