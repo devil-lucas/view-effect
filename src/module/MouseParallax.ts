@@ -54,10 +54,10 @@ class MouseParallax {
   }
 
   private _generateEffectEleMetaInfo(): void {
-    this.effectEle.forEach((ele) => {
-      const rate: number = this._calcRate(ele.getAttribute(this._default.identify));
+    for (let i = 0; i < this.effectEle.length; i++) {
+      const rate: number = this._calcRate(this.effectEle[i].getAttribute(this._default.identify));
       this._effectEleMetaInfo.push({
-        ele,
+        ele: this.effectEle[i],
         rate,
         targetX: 0,
         targetY: 0,
@@ -65,11 +65,28 @@ class MouseParallax {
         prevY: 0,
         x: 0,
         y: 0,
-        top: ele.offsetTop,
-        left: ele.offsetLeft,
-        width: ele.offsetWidth,
+        top: this.effectEle[i].offsetTop,
+        left: this.effectEle[i].offsetLeft,
+        width: this.effectEle[i].offsetWidth,
       });
-    });
+    }
+
+    // this.effectEle.forEach((ele) => {
+    //   const rate: number = this._calcRate(ele.getAttribute(this._default.identify));
+    //   this._effectEleMetaInfo.push({
+    //     ele,
+    //     rate,
+    //     targetX: 0,
+    //     targetY: 0,
+    //     prevX: 0,
+    //     prevY: 0,
+    //     x: 0,
+    //     y: 0,
+    //     top: ele.offsetTop,
+    //     left: ele.offsetLeft,
+    //     width: ele.offsetWidth,
+    //   });
+    // });
   }
 
   private _calcRate(rate: string): number {
@@ -103,7 +120,7 @@ class MouseParallax {
   }
 
   animate() {
-    this._point.listen();
+    // this._point.listen();
     this._calcEffectElePosition();
     requestAnimationFrame(this.animate.bind(this));
   }

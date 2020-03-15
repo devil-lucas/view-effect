@@ -11,7 +11,7 @@
     "declarationMap": true,// 是否生成声明文件map文件（便于调试）
     "moduleResolution": "node",
     "module": "esnext",
-    "target": "es6",// 转化成的目标语言
+    "target": "es5",// 转化成的目标语言
     "baseUrl": "./",
     "typeRoots": [
       "./node_modules/@types"

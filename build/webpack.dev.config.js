@@ -13,20 +13,21 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        loader: 'babel-loader',
-      },
-      {
         test: /\.ts$/,
         exclude: /(node_modules)/,
         loader: 'ts-loader',
+      },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules)/,
+        loader: 'babel-loader',
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: resolve(__dirname, '../example/index.html'),
+      inject: 'head',
     }),
   ],
   devServer: {
