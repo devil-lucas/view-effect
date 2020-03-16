@@ -12,6 +12,7 @@ interface FullPagesSwitchDefaults {
   direction: 'vertical' | 'horizontal',
   mouseWheel: boolean,
   keyboard: boolean,
+  mouseClick: boolean,
   loop: boolean,
   pagination: {
     open: boolean,
@@ -37,6 +38,7 @@ const defaults: FullPagesSwitchDefaults = {
   direction: 'horizontal',
   mouseWheel: true,
   keyboard: true,
+  mouseClick: false,
   loop: false,
   pagination: {
     open: true,
@@ -63,6 +65,10 @@ class FullPageSwitch {
 
   private keydownEventHandler: EventHandlerNonNull = null;
 
+  private mouseClickEventHandler: EventHandlerNonNull = null;
+
+  private mouseCentextMenuEventHandler: EventHandlerNonNull = null;
+
   private containerTransionendEventHandler: EventHandlerNonNull = null;
 
   private constructor(options) {
@@ -71,6 +77,8 @@ class FullPageSwitch {
     // 事件绑定更改 this 指向
     this.mouseWheelEventHandler = this._mouseWheelEventHandler.bind(this);
     this.keydownEventHandler = this._keydownEventHandler.bind(this);
+    this.mouseClickEventHandler = this._mouseClickEventHandler.bind(this);
+    this.mouseCentextMenuEventHandler = this._mouseCentextMenuEventHandler.bind(this);
     this.containerTransionendEventHandler = this._containerTransionendEventHandler.bind(this);
 
     this._init();
@@ -129,7 +137,7 @@ class FullPageSwitch {
   }
 
   private _bindEvent() {
-    const { mouseWheel, keyboard } = this.settings;
+    const { mouseWheel, keyboard, mouseClick } = this.settings;
 
     // 如果开始滚轮控制
     if (mouseWheel) {
@@ -139,6 +147,11 @@ class FullPageSwitch {
     // 如果开启键盘设置
     if (keyboard) {
       this._bindKeydownEvent();
+    }
+
+    // 如果开启鼠标点击设置
+    if (mouseClick) {
+      this._bindMouseClickEvent();
     }
 
     this._bindContainerTransionendEvent();
@@ -181,6 +194,20 @@ class FullPageSwitch {
         this.prev();
       }
     }
+  }
+
+  private _bindMouseClickEvent() {
+    window.addEventListener('click', this.mouseClickEventHandler);
+    window.addEventListener('contextmenu', this.mouseCentextMenuEventHandler);
+  }
+
+  private _mouseClickEventHandler() {
+    this.next();
+  }
+
+  private _mouseCentextMenuEventHandler(event: MouseEventExtend) {
+    event.preventDefault();
+    this.prev();
   }
 
   private _bindContainerTransionendEvent() {
