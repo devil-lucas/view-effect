@@ -10,23 +10,22 @@
     margin: 0;
     padding: 0;
   }
-  .effect-fp-container {
+  .effect-flyer-container {
     transition: all ease 500ms;
   }
 </style>
 <body>
 
-  <div class="effect-fp-container">
-    <div class="fp-section" style="text-align: center; background-color: red">page 1</div>
-    <div class="fp-section" style="text-align: center; background-color: blue">page 2</div>
-    <div class="fp-section" style="text-align: center; background-color: green">page 3</div>
-    <div class="fp-section" style="text-align: center; background-color: yellow">page 4</div>
+  <div class="effect-flyer-container">
+    <div class="flyer-section" style="text-align: center; background-color: red">page 1</div>
+    <div class="flyer-section" style="text-align: center; background-color: blue">page 2</div>
+    <div class="flyer-section" style="text-align: center; background-color: green">page 3</div>
+    <div class="flyer-section" style="text-align: center; background-color: yellow">page 4</div>
   </div>
 
   <script>
     window.onload = function () {
-      var e = effect.getInstance();
-      e.go(2);
+      var e = Flyer.getInstance();
     }
   </script>
 </body>

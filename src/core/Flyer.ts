@@ -1,7 +1,7 @@
 import objectAssign from 'object-assign';
 import helpers from '../utils/helpers';
 
-interface FullPagesSwitchDefaults {
+interface FlyerDefaults {
   selector: {
     container: string,
     section: string,
@@ -27,10 +27,10 @@ interface MouseEventExtend extends MouseEvent {
 }
 
 // FullPageSwitch 默认配置项
-const defaults: FullPagesSwitchDefaults = {
+const defaults: FlyerDefaults = {
   selector: {
-    container: '.effect-fp-container',
-    section: '.fp-section',
+    container: '.effect-flyer-container',
+    section: '.flyer-section',
   },
   index: 1,
   easing: 'ease',
@@ -48,10 +48,10 @@ const defaults: FullPagesSwitchDefaults = {
   },
 };
 
-class FullPageSwitch {
-  private static _instance: FullPageSwitch = null;
+class Flyer {
+  private static _instance: Flyer = null;
 
-  settings: FullPagesSwitchDefaults = null;
+  settings: FlyerDefaults = null;
 
   container: HTMLElement = null;
 
@@ -71,7 +71,7 @@ class FullPageSwitch {
 
   private containerTransionendEventHandler: EventHandlerNonNull = null;
 
-  private constructor(options: FullPagesSwitchDefaults) {
+  private constructor(options: FlyerDefaults) {
     this.settings = objectAssign(defaults, options);
 
     // 事件绑定更改 this 指向
@@ -84,9 +84,9 @@ class FullPageSwitch {
     this._init();
   }
 
-  static getInstance(options: FullPagesSwitchDefaults): FullPageSwitch {
+  static getInstance(options: FlyerDefaults): Flyer {
     if (this._instance === null) {
-      this._instance = new FullPageSwitch(options);
+      this._instance = new Flyer(options);
     }
 
     return this._instance;
@@ -309,4 +309,4 @@ class FullPageSwitch {
   }
 }
 
-export default FullPageSwitch;
+export default Flyer;

@@ -1,5 +1,5 @@
-import FullPageSwitch from './core/FullPageSwitch';
+import Flyer from './core/Flyer';
 
-Object.defineProperty(window, 'effect', { value: FullPageSwitch });
+Object.defineProperty(window, 'Flyer', { value: Flyer });
 
-export default FullPageSwitch;
+export default Flyer;
