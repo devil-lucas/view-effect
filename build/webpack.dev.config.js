@@ -1,10 +1,11 @@
 const { resolve } = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
   resolve: {
-    extensions: ['.ts', '.js', '.json'],
+    extensions: ['.ts', '.js', '.json', 'less'],
   },
   optimization: {
     minimize: false,
@@ -22,6 +23,21 @@ module.exports = {
         exclude: /(node_modules)/,
         loader: 'babel-loader',
       },
+      {
+        test: /\.less$/,
+        exclude: /(node_modules)/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              esModule: true,
+              hmr: true,
+            },
+          },
+          'css-loader',
+          'less-loader',
+        ],
+      },
     ],
   },
   plugins: [
@@ -29,6 +45,7 @@ module.exports = {
       template: resolve(__dirname, '../example/index.html'),
       inject: 'head',
     }),
+    new MiniCssExtractPlugin(),
   ],
   devServer: {
     contentBase: resolve(__dirname, '../examplae'),
