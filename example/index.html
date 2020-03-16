@@ -26,6 +26,13 @@
   <script>
     window.onload = function () {
       var e = effect.getInstance();
+      window.onclick =function () {
+        e.next();
+      }
+      window.oncontextmenu =function (ev) {
+        ev.preventDefault();
+        e.prev()
+      }
     }
   </script>
 </body>

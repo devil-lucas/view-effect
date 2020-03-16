@@ -1,4 +1,5 @@
 import objectAssign from 'object-assign';
+import helpers from '../utils/helpers';
 
 interface FullPagesSwitchDefaults {
   selector: {
@@ -18,7 +19,6 @@ interface FullPagesSwitchDefaults {
     position: 'bottom' | 'top' | 'left' | 'right',
     direction: 'vertical' | 'horizontal'
   },
-  [propName: string]: any;
 }
 
 interface MouseEventExtend extends MouseEvent {
@@ -42,7 +42,7 @@ const defaults: FullPagesSwitchDefaults = {
     open: true,
     type: 'indicator',
     position: 'bottom',
-    direction: 'vertical',
+    direction: 'horizontal',
   },
 };
 
@@ -55,9 +55,7 @@ class FullPageSwitch {
 
   sections: NodeListOf<HTMLElement> = null;
 
-  curIndex: number = null;
-
-  curSection: HTMLElement = null;
+  private _index: number = null;
 
   private _switchLock: boolean = true;
 
@@ -86,21 +84,21 @@ class FullPageSwitch {
     return this._instance;
   }
 
-  private _init() {
-    this._initDocBody();
-    this._initProperty();
-    this._initSections();
-    this._bindEvent();
-  }
+  // 实例获取当前 section 索引
+  get index(): number { return this._index; }
 
-  private _initDocBody() {
-    document.documentElement.style.height = '100%';
-    document.body.style.overflow = 'hidden';
-    document.body.style.height = '100%';
-    const { direction } = this.settings;
-    // eslint-disable-next-line no-console
-    console.log(direction);
-    // if (direction === 'vertical') {}
+  // 实例获取当前 section
+  get section(): HTMLElement { return this.sections[this._index]; }
+
+  // 实例获取 sections 长度
+  get len(): number { return this.sections.length; }
+
+  private _init() {
+    helpers.setDocumentHtmlStyle();
+    helpers.setDocumentBodyStyle();
+    this._initProperty();
+    this._initContainerAndSections();
+    this._bindEvent();
   }
 
   // 初始化实例属性
@@ -109,23 +107,22 @@ class FullPageSwitch {
 
     this.container = document.querySelector(selector.container);
     this.sections = this.container.querySelectorAll(selector.section);
-    this.curIndex = index - 1;
-    this.curSection = this.sections[this.curIndex];
+    this._index = index - 1;
   }
 
-  private _initSections() {
+  private _initContainerAndSections() {
     const { direction } = this.settings;
-    const len: number = this.sections.length;
 
+    // 之后改成添加 css 类名
     this.container.style.height = '100%';
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < this.len; i++) {
       this.sections[i].style.height = '100%';
     }
 
     if (direction === 'horizontal') {
       this.container.style.display = 'flex';
       this.container.style.justifyContent = 'flex-start';
-      for (let i = 0; i < len; i++) {
+      for (let i = 0; i < this.len; i++) {
         this.sections[i].style.flex = '0 0 100%';
       }
     }
@@ -134,10 +131,12 @@ class FullPageSwitch {
   private _bindEvent() {
     const { mouseWheel, keyboard } = this.settings;
 
+    // 如果开始滚轮控制
     if (mouseWheel) {
       this._bindMouseWheelEvent();
     }
 
+    // 如果开启键盘设置
     if (keyboard) {
       this._bindKeydownEvent();
     }
@@ -151,37 +150,12 @@ class FullPageSwitch {
 
   private _mouseWheelEventHandler(event: MouseEventExtend) {
     const { wheelDelta } = event;
-    const { direction, loop } = this.settings;
 
     if (this._switchLock) {
-      if (direction === 'vertical') {
-        if (wheelDelta < 0) { //  向下滑动
-          if (!loop && this.curIndex < this.sections.length - 1) {
-            this.curIndex++;
-            this.container.style.transform = `translateY(-${this.curIndex * 100}%)`;
-            this._switchLock = false;
-          }
-        } else if (wheelDelta > 0) { // 向上滑动
-          if (!loop && this.curIndex > 0) {
-            this.curIndex--;
-            this.container.style.transform = `translateY(-${this.curIndex * 100}%)`;
-            this._switchLock = false;
-          }
-        }
-      } else if (direction === 'horizontal') {
-        if (wheelDelta < 0) { //  向右滑动
-          if (!loop && this.curIndex < this.sections.length - 1) {
-            this.curIndex++;
-            this.container.style.transform = `translateX(-${this.curIndex * 100}%)`;
-            this._switchLock = false;
-          }
-        } else if (wheelDelta > 0) { // 向左滑动
-          if (!loop && this.curIndex > 0) {
-            this.curIndex--;
-            this.container.style.transform = `translateX(-${this.curIndex * 100}%)`;
-            this._switchLock = false;
-          }
-        }
+      if (wheelDelta < 0) {
+        this.next();
+      } else if (wheelDelta > 0) {
+        this.prev();
       }
     }
   }
@@ -192,35 +166,19 @@ class FullPageSwitch {
 
   private _keydownEventHandler(event: KeyboardEvent) {
     const { keyCode } = event;
-    const { direction, loop } = this.settings;
+    const { direction } = this.settings;
 
     if (direction === 'vertical') {
-      if (keyCode === 40) { //  向下滑动
-        if (!loop && this.curIndex < this.sections.length - 1) {
-          this.curIndex++;
-          this.container.style.transform = `translateY(-${this.curIndex * 100}%)`;
-          this._switchLock = false;
-        }
-      } else if (keyCode === 38) { // 向上滑动
-        if (!loop && this.curIndex > 0) {
-          this.curIndex--;
-          this.container.style.transform = `translateY(-${this.curIndex * 100}%)`;
-          this._switchLock = false;
-        }
+      if (keyCode === 40) {
+        this.next();
+      } else if (keyCode === 38) {
+        this.prev();
       }
     } else if (direction === 'horizontal') {
-      if (keyCode === 39) { //  向右滑动
-        if (!loop && this.curIndex < this.sections.length - 1) {
-          this.curIndex++;
-          this.container.style.transform = `translateX(-${this.curIndex * 100}%)`;
-          this._switchLock = false;
-        }
-      } else if (keyCode === 37) { // 向左滑动
-        if (!loop && this.curIndex > 0) {
-          this.curIndex--;
-          this.container.style.transform = `translateX(-${this.curIndex * 100}%)`;
-          this._switchLock = false;
-        }
+      if (keyCode === 39) {
+        this.next();
+      } else if (keyCode === 37) {
+        this.prev();
       }
     }
   }
@@ -230,8 +188,69 @@ class FullPageSwitch {
   }
 
   private _containerTransionendEventHandler() {
-    this._switchLock = true;
+    this._setSwitchLock(true);
   }
+
+  private _setSwitchLock(flag: boolean): void {
+    this._switchLock = flag;
+  }
+
+  private _setVerticaltransform() {
+    helpers.css(this.container, {
+      transform: `translateY(-${this._index * 100}%)`,
+    });
+  }
+
+  private _setHorizontaltransform() {
+    helpers.css(this.container, {
+      transform: `translateX(-${this._index * 100}%)`,
+    });
+  }
+
+  next() {
+    const { direction, loop } = this.settings;
+
+    if (!loop && this._index < this.sections.length - 1) {
+      this._index++;
+
+      switch (direction) {
+        case 'vertical':
+          this._setVerticaltransform();
+          break;
+        case 'horizontal':
+          this._setHorizontaltransform();
+          break;
+        default:
+          break;
+      }
+
+      this._setSwitchLock(false);
+    }
+  }
+
+  prev() {
+    const { direction, loop } = this.settings;
+
+    if (!loop && this._index > 0) {
+      this._index--;
+
+      switch (direction) {
+        case 'vertical':
+          this._setVerticaltransform();
+          break;
+        case 'horizontal':
+          this._setHorizontaltransform();
+          break;
+        default:
+          break;
+      }
+
+      this._setSwitchLock(false);
+    }
+  }
+
+  // go() {
+  // }
 }
 
 export default FullPageSwitch;
