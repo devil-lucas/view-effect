@@ -71,7 +71,7 @@ class FullPageSwitch {
 
   private containerTransionendEventHandler: EventHandlerNonNull = null;
 
-  private constructor(options) {
+  private constructor(options: FullPagesSwitchDefaults) {
     this.settings = objectAssign(defaults, options);
 
     // 事件绑定更改 this 指向
@@ -84,7 +84,7 @@ class FullPageSwitch {
     this._init();
   }
 
-  static getInstance(options): FullPageSwitch {
+  static getInstance(options: FullPagesSwitchDefaults): FullPageSwitch {
     if (this._instance === null) {
       this._instance = new FullPageSwitch(options);
     }
@@ -101,7 +101,8 @@ class FullPageSwitch {
   // 实例获取 sections 长度
   get len(): number { return this.sections.length; }
 
-  private _init() {
+  // 初始化入口
+  private _init(): void {
     helpers.setDocumentHtmlStyle();
     helpers.setDocumentBodyStyle();
     this._initProperty();
@@ -110,7 +111,7 @@ class FullPageSwitch {
   }
 
   // 初始化实例属性
-  private _initProperty() {
+  private _initProperty(): void {
     const { selector, index } = this.settings;
 
     this.container = document.querySelector(selector.container);
@@ -118,7 +119,8 @@ class FullPageSwitch {
     this._index = index - 1;
   }
 
-  private _initContainerAndSections() {
+  // 初始化容器和板块
+  private _initContainerAndSections(): void {
     const { direction } = this.settings;
 
     // 之后改成添加 css 类名
@@ -136,7 +138,8 @@ class FullPageSwitch {
     }
   }
 
-  private _bindEvent() {
+  // 事件绑定中心
+  private _bindEvent(): void {
     const { mouseWheel, keyboard, mouseClick } = this.settings;
 
     // 如果开始滚轮控制
@@ -157,11 +160,13 @@ class FullPageSwitch {
     this._bindContainerTransionendEvent();
   }
 
-  private _bindMouseWheelEvent() {
+  //  绑定滚轮滚动事件
+  private _bindMouseWheelEvent(): void {
     window.addEventListener('mousewheel', this.mouseWheelEventHandler);
   }
 
-  private _mouseWheelEventHandler(event: MouseEventExtend) {
+  //  滚轮滚动事件处理函数
+  private _mouseWheelEventHandler(event: MouseEventExtend): void {
     const { wheelDelta } = event;
 
     if (this._switchLock) {
@@ -173,11 +178,13 @@ class FullPageSwitch {
     }
   }
 
-  private _bindKeydownEvent() {
+  //  绑定键盘按下事件
+  private _bindKeydownEvent(): void {
     window.addEventListener('keydown', this.keydownEventHandler);
   }
 
-  private _keydownEventHandler(event: KeyboardEvent) {
+  //  键盘按下事件处理函数
+  private _keydownEventHandler(event: KeyboardEvent): void {
     const { keyCode } = event;
     const { direction } = this.settings;
 
@@ -196,45 +203,54 @@ class FullPageSwitch {
     }
   }
 
-  private _bindMouseClickEvent() {
+  //  绑定鼠标单击和右击事件处理函数
+  private _bindMouseClickEvent(): void {
     window.addEventListener('click', this.mouseClickEventHandler);
     window.addEventListener('contextmenu', this.mouseCentextMenuEventHandler);
   }
 
-  private _mouseClickEventHandler() {
+  //  鼠标单击事件处理函数
+  private _mouseClickEventHandler(): void {
     this.next();
   }
 
-  private _mouseCentextMenuEventHandler(event: MouseEventExtend) {
+  // 鼠标右击事件处理函数
+  private _mouseCentextMenuEventHandler(event: MouseEventExtend): void {
     event.preventDefault();
     this.prev();
   }
 
-  private _bindContainerTransionendEvent() {
+  // 绑定容器过渡动画结束事件
+  private _bindContainerTransionendEvent(): void {
     this.container.addEventListener('transitionend', this.containerTransionendEventHandler);
   }
 
-  private _containerTransionendEventHandler() {
+  //  容器过渡动画结束事件处理函数
+  private _containerTransionendEventHandler(): void {
     this._setSwitchLock(true);
   }
 
+  // 设置是否可以执行切换
   private _setSwitchLock(flag: boolean): void {
     this._switchLock = flag;
   }
 
-  private _setVerticaltransform() {
+  // 设置 direction 值为 vertical 时的 transform 值
+  private _setVerticaltransform(): void {
     helpers.css(this.container, {
       transform: `translateY(-${this._index * 100}%)`,
     });
   }
 
-  private _setHorizontaltransform() {
+  // 设置 direction 值为 horizontal 时的 transform 值
+  private _setHorizontaltransform(): void {
     helpers.css(this.container, {
       transform: `translateX(-${this._index * 100}%)`,
     });
   }
 
-  next() {
+  // 切换至下一个板块
+  next(): void {
     const { direction, loop } = this.settings;
 
     if (!loop && this._index < this.sections.length - 1) {
@@ -255,7 +271,8 @@ class FullPageSwitch {
     }
   }
 
-  prev() {
+  //  切换至上一个板块
+  prev(): void {
     const { direction, loop } = this.settings;
 
     if (!loop && this._index > 0) {
@@ -276,7 +293,8 @@ class FullPageSwitch {
     }
   }
 
-  go(index: number) {
+  //  跳转到某个板块
+  go(index: number): void {
     const { direction } = this.settings;
     index = Math.ceil(index);
 
