@@ -276,8 +276,19 @@ class FullPageSwitch {
     }
   }
 
-  // go() {
-  // }
+  go(index: number) {
+    const { direction } = this.settings;
+    index = Math.ceil(index);
+
+    if (index > 0 && index < this.len) {
+      this._index = index - 1;
+      if (direction === 'vertical') {
+        this._setVerticaltransform();
+      } else if (direction === 'horizontal') {
+        this._setHorizontaltransform();
+      }
+    }
+  }
 }
 
 export default FullPageSwitch;
