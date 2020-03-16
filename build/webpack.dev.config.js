@@ -31,6 +31,8 @@ module.exports = {
     }),
   ],
   devServer: {
+    contentBase: resolve(__dirname, '../examplae'),
+    hot: true,
     port: 9001,
     open: true,
   },

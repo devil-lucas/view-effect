@@ -10,48 +10,22 @@
     margin: 0;
     padding: 0;
   }
-  #test {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    background-image: url('/example/assets/image/test.jpg');
-    background-position: center;
-    background-size: 100% auto;
-    overflow: hidden;
-  }
-  #test::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, .28);
-  }
-  .effect-wrap {
-    position: relative;
-    z-index: 1;
-    color: #fff;
+  .effect-fp-container {
+    transition: all ease 500ms;
   }
 </style>
 <body>
 
-  <div id="test">
-    <div class="effect-wrap">
-      <div data-effect>Hhhhh</div>
-    </div>
+  <div class="effect-fp-container">
+    <div class="fp-section" style="text-align: center; background-color: red">page 1</div>
+    <div class="fp-section" style="text-align: center; background-color: blue">page 2</div>
+    <div class="fp-section" style="text-align: center; background-color: green">page 3</div>
+    <div class="fp-section" style="text-align: center; background-color: yellow">page 4</div>
   </div>
 
   <script>
     window.onload = function () {
-      var e = new effect({ selector: '.effect-wrap' });
-      e.animate();
-      // setTimeout(function () {
-      //   e.destroy();
-      // }, 10000);
+      var e = effect.getInstance();
     }
   </script>
 </body>
