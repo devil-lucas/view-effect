@@ -123,7 +123,17 @@ class Flyer {
   private _initFlyerBySettings(): void {
     this._initFlyerDirection();
     this._initFlyerFirstSection();
-    this._initFlyerTransition();
+
+    /**
+     * 这里不知道为什么先执行 transform 平移
+     * 之后设置 transtion 过渡效果
+     * 先设置的平移也会出现过渡效果
+     * 暂时先设置 setTimeout 延迟 0
+     * 将设置 transition 的方法放到下一个队列执行
+     */
+    setTimeout(() => {
+      this._initFlyerTransition();
+    }, 0);
   }
 
   // 初始化方向
@@ -145,14 +155,14 @@ class Flyer {
     if (index < 1 || index > this.len) {
       index = 1;
     }
-    this._index = index;
+    this._index = index - 1;
     if (direction === 'vertical') {
       helpers.css(this.container, {
-        transform: `translateY(-${index * 100}%)`,
+        transform: `translateY(-${this._index * 100}%)`,
       });
     } else if (direction === 'horizontal') {
       helpers.css(this.container, {
-        transform: `translateX(-${index * 100}%)`,
+        transform: `translateX(-${this._index * 100}%)`,
       });
     }
   }
