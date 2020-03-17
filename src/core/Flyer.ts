@@ -106,7 +106,7 @@ class Flyer {
     helpers.setDocumentHtmlStyle();
     helpers.setDocumentBodyStyle();
     this._initProperty();
-    this._initContainerAndSections();
+    this._initFlyerBySettings();
     this._bindEvent();
   }
 
@@ -119,23 +119,51 @@ class Flyer {
     this._index = index - 1;
   }
 
-  // 初始化容器和板块
-  private _initContainerAndSections(): void {
+  // 根据设置初始化 Flyer
+  private _initFlyerBySettings(): void {
+    this._initFlyerDirection();
+    this._initFlyerFirstSection();
+    this._initFlyerTransition();
+  }
+
+  // 初始化方向
+  private _initFlyerDirection(): void {
     const { direction } = this.settings;
 
-    // 之后改成添加 css 类名
-    this.container.style.height = '100%';
-    for (let i = 0; i < this.len; i++) {
-      this.sections[i].style.height = '100%';
+    if (direction === 'vertical') {
+      this.container.classList.add('vertical');
+    } else if (direction === 'horizontal') {
+      this.container.classList.add('horizontal');
     }
+  }
 
-    if (direction === 'horizontal') {
-      this.container.style.display = 'flex';
-      this.container.style.justifyContent = 'flex-start';
-      for (let i = 0; i < this.len; i++) {
-        this.sections[i].style.flex = '0 0 100%';
-      }
+  // 初始化首个展示板块
+  private _initFlyerFirstSection(): void {
+    let { index } = this.settings;
+    const { direction } = this.settings;
+
+    if (index < 1 || index > this.len) {
+      index = 1;
     }
+    this._index = index;
+    if (direction === 'vertical') {
+      helpers.css(this.container, {
+        transform: `translateY(-${index * 100}%)`,
+      });
+    } else if (direction === 'horizontal') {
+      helpers.css(this.container, {
+        transform: `translateX(-${index * 100}%)`,
+      });
+    }
+  }
+
+  // 初始化过渡效果
+  private _initFlyerTransition(): void {
+    const { duration, easing } = this.settings;
+
+    helpers.css(this.container, {
+      transition: `all ${duration}ms ${easing}`,
+    });
   }
 
   // 事件绑定中心

@@ -10,9 +10,9 @@
     margin: 0;
     padding: 0;
   }
-  .effect-flyer-container {
+  /* .effect-flyer-container {
     transition: all ease 500ms;
-  }
+  } */
 </style>
 <body>
 
@@ -25,7 +25,11 @@
 
   <script>
     window.onload = function () {
-      var e = Flyer.getInstance();
+      var e = Flyer.getInstance({
+        direction: 'vertical',
+        duration: 300,
+        easing: 'linear',
+      });
     }
   </script>
 </body>
