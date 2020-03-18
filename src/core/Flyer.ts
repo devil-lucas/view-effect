@@ -29,8 +29,8 @@ interface MouseEventExtend extends MouseEvent {
 // FullPageSwitch 默认配置项
 const defaults: FlyerDefaults = {
   selector: {
-    container: '.effect-flyer-container',
-    section: '.flyer-section',
+    container: '#flyer',
+    section: '.section',
   },
   index: 1,
   easing: 'ease',
@@ -107,12 +107,14 @@ class Flyer {
     helpers.setDocumentBodyStyle();
     this._initProperty();
     this._initDirection();
-    this._initFirstSection();/**
+    this._initFirstSection();
+    /**
     * 这里不知道为什么先执行 transform 平移
     * 之后设置 transtion 过渡效果
     * 先设置的平移也会出现过渡效果
     * 暂时先设置 setTimeout 延迟 0
     * 将设置 transition 的方法放到下一个队列执行
+    * firfox 还是有问题
     */
     setTimeout(() => {
       this._initTransition();
@@ -194,16 +196,17 @@ class Flyer {
   //  绑定滚轮滚动事件
   private _bindMouseWheelEvent(): void {
     window.addEventListener('mousewheel', this.mouseWheelEventHandler);
+    window.addEventListener('DOMMouseScroll', this.mouseWheelEventHandler); /* firefox */
   }
 
   //  滚轮滚动事件处理函数
   private _mouseWheelEventHandler(event: MouseEventExtend): void {
-    const { wheelDelta } = event;
+    const { wheelDelta, detail } = event; /* detail 为火狐 */
 
     if (this._switchLock) {
-      if (wheelDelta < 0) {
+      if (wheelDelta < 0 || detail > 0) {
         this.next();
-      } else if (wheelDelta > 0) {
+      } else if (wheelDelta > 0 || detail < 0) {
         this.prev();
       }
     }
