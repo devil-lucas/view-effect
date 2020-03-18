@@ -106,7 +106,17 @@ class Flyer {
     helpers.setDocumentHtmlStyle();
     helpers.setDocumentBodyStyle();
     this._initProperty();
-    this._initFlyerBySettings();
+    this._initDirection();
+    this._initFirstSection();/**
+    * 这里不知道为什么先执行 transform 平移
+    * 之后设置 transtion 过渡效果
+    * 先设置的平移也会出现过渡效果
+    * 暂时先设置 setTimeout 延迟 0
+    * 将设置 transition 的方法放到下一个队列执行
+    */
+    setTimeout(() => {
+      this._initTransition();
+    }, 0);
     this._bindEvent();
   }
 
@@ -119,25 +129,8 @@ class Flyer {
     this._index = index - 1;
   }
 
-  // 根据设置初始化 Flyer
-  private _initFlyerBySettings(): void {
-    this._initFlyerDirection();
-    this._initFlyerFirstSection();
-
-    /**
-     * 这里不知道为什么先执行 transform 平移
-     * 之后设置 transtion 过渡效果
-     * 先设置的平移也会出现过渡效果
-     * 暂时先设置 setTimeout 延迟 0
-     * 将设置 transition 的方法放到下一个队列执行
-     */
-    setTimeout(() => {
-      this._initFlyerTransition();
-    }, 0);
-  }
-
   // 初始化方向
-  private _initFlyerDirection(): void {
+  private _initDirection(): void {
     const { direction } = this.settings;
 
     if (direction === 'vertical') {
@@ -148,7 +141,7 @@ class Flyer {
   }
 
   // 初始化首个展示板块
-  private _initFlyerFirstSection(): void {
+  private _initFirstSection(): void {
     let { index } = this.settings;
     const { direction } = this.settings;
 
@@ -168,7 +161,7 @@ class Flyer {
   }
 
   // 初始化过渡效果
-  private _initFlyerTransition(): void {
+  private _initTransition(): void {
     const { duration, easing } = this.settings;
 
     helpers.css(this.container, {
