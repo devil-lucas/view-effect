@@ -1,0 +1,8 @@
+# 依赖模块
+/node_modules
+
+# rollup 配置
+/build
+
+# 编译
+/dist
