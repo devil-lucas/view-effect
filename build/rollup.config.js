@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-const rollupTs = require('@rollup/plugin-typescript');
+const typescript = require('rollup-plugin-typescript2');
 
 export default {
   input: resolve(__dirname, '../src/index.ts'),
@@ -9,6 +9,9 @@ export default {
     name: 'ViewEffect',
   },
   plugins: [
-    rollupTs(),
+    typescript({
+      exclude: /(node_modules)/,
+      typescript: require('typescript'),
+    }),
   ],
 };

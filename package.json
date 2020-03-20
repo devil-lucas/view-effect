@@ -21,9 +21,9 @@
   },
   "homepage": "https://github.com/cryi1116/view-effect#readme",
   "devDependencies": {
-    "@rollup/plugin-typescript": "^4.0.0",
     "gulp": "^4.0.2",
     "rollup": "^2.1.0",
+    "rollup-plugin-typescript2": "^0.26.0",
     "typescript": "^3.8.3"
   }
 }
