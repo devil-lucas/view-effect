@@ -1,6 +1,0 @@
-# 依赖文件夹
-/node_modules
-
-# webpack 编译文件
-/dist
-
