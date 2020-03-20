@@ -1,5 +1,3 @@
-const a: number = 1;
+import Flyer from './defaults/Flyer';
 
-console.log(a);
-
-export default a;
+export default Flyer;
