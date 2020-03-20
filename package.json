@@ -1,0 +1,29 @@
+{
+  "name": "view-effect",
+  "version": "0.1.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "rollup --config ./build/rollup.config.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cryi1116/view-effect.git"
+  },
+  "keywords": [
+    "effect"
+  ],
+  "author": "cryi1116",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cryi1116/view-effect/issues"
+  },
+  "homepage": "https://github.com/cryi1116/view-effect#readme",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^4.0.0",
+    "gulp": "^4.0.2",
+    "rollup": "^2.1.0",
+    "typescript": "^3.8.3"
+  }
+}
