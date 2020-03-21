@@ -2,7 +2,6 @@
 import Effect from '../types/index';
 
 const defaults: Effect.Flyer.defaults = {
-  mode: 'full',
   selector: {
     container: '.effect-flyer',
     section: '.section',
@@ -11,6 +10,7 @@ const defaults: Effect.Flyer.defaults = {
   duration: 500,
   motion: 'ease',
   direction: 'vertical',
+  autoplay: false,
   trigger: {
     mousewheel: true,
   },

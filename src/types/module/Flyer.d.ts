@@ -1,15 +1,6 @@
 declare namespace Flyer {
   interface defaults {
     /**
-     * mode: 设置 Flyer 的展示模式
-     * 默认值：full
-     * 可选：
-     *    full -> 全屏展示
-     *    local -> 局部展示
-     * 传入其他值设置为默认值
-     */
-    mode: 'full' | 'local';
-    /**
      * selector：设置获取 Flyer 容器和板块的 CSS 选择器
      * 默认值：{
      *  container: '.effect-flyer',
@@ -47,9 +38,9 @@ declare namespace Flyer {
      */
     direction: 'vertical' | 'horizontal';
     /**
-     * autoplay：设置是否自动播放，当 mode 为 local 时生效
+     * autoplay：设置是否自动播放
      */
-    autoplay?: boolean;
+    autoplay: boolean;
     /**
      * trigger：触发板块切换的方式
      * 默认值：{ mousewheel: true }

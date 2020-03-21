@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "build": "rollup --config ./build/rollup.config.js",
+    "build": "tsc & rollup --config ./build/rollup.config.js",
     "lint": "eslint src/index.ts"
   },
   "repository": {
@@ -21,18 +21,19 @@
   },
   "homepage": "https://github.com/cryi1116/view-effect#readme",
   "devDependencies": {
+    "@types/object-assign": "^4.0.30",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
+    "classlist-polyfill": "^1.2.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
-    "gulp": "^4.0.2",
     "rollup": "^2.1.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-typescript2": "^0.26.0",
+    "rollup-plugin-typescript": "^1.0.1",
     "typescript": "^3.8.3"
   },
   "dependencies": {

@@ -1,7 +1,7 @@
 const { resolve } = require('path');
 const resolvePlugin = require('rollup-plugin-node-resolve');
 const commonJsPlugin = require('rollup-plugin-commonjs');
-const typescriptPlugin = require('rollup-plugin-typescript2');
+const typescriptPlugin = require('rollup-plugin-typescript');
 
 export default {
   input: resolve(__dirname, '../src/index.ts'),
@@ -12,7 +12,9 @@ export default {
   },
   plugins: [
     resolvePlugin(),
-    commonJsPlugin(),
+    commonJsPlugin({
+      include: /(node_modules)/,
+    }),
     typescriptPlugin({
       exclude: /(node_modules)/,
       typescript: require('typescript'),
