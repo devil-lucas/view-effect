@@ -1,5 +1,7 @@
 const { resolve } = require('path');
-const typescript = require('rollup-plugin-typescript2');
+const resolvePlugin = require('rollup-plugin-node-resolve');
+const commonJsPlugin = require('rollup-plugin-commonjs');
+const typescriptPlugin = require('rollup-plugin-typescript2');
 
 export default {
   input: resolve(__dirname, '../src/index.ts'),
@@ -9,7 +11,9 @@ export default {
     name: 'ViewEffect',
   },
   plugins: [
-    typescript({
+    resolvePlugin(),
+    commonJsPlugin(),
+    typescriptPlugin({
       exclude: /(node_modules)/,
       typescript: require('typescript'),
     }),

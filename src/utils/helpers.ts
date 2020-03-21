@@ -1,1 +1,7 @@
-console.log(222);
+import objectAssign from 'object-assign';
+
+const helpers = {
+  objectAssign,
+};
+
+export default helpers;

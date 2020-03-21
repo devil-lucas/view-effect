@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import Effect from '../types/index';
 
 const defaults: Effect.Flyer.defaults = {
